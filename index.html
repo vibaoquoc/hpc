@@ -1,0 +1,149 @@
+
+<!doctype html>
+<html>
+<head>
+    <title>HappyChat</title> 
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="js/jquery.mobile-1.4.2/jquery.mobile-1.4.2.min.css">
+    <link rel="stylesheet" href="css/conversation.css">
+    <link rel="stylesheet" href="css/emotions.css">
+    <script src="js/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="js/jquery.mobile-1.4.2/jquery.mobile-1.4.2.min.js"></script>
+    <script type="text/javascript" src="http://static.gate.vn/static/js/foconnect.js"></script>
+    <script src="http://192.3.165.62:8080/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="js/mustache.js"></script>
+    <script type="text/javascript" src="js/ba-emotify.js"></script>
+    <script type="text/javascript" src="js/GateTVchat.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function (){
+            var pk = "das8189q54asd@022kka&@#";
+            var user = localStorage.getItem("uname");
+            var token = localStorage.getItem("token");
+            if (user == null || token == null){
+                user = GateTVchat._contacts[Math.floor((Math.random() * 10) + 1)].phone;
+                token = GateTVchat.md5(user + pk);
+
+                localStorage.setItem("uname",user);
+                localStorage.setItem("token",token);
+            }
+            GateTVchat.init(user,token);
+            GateTVchat.join();
+            GateTVchat.resizeFormChat();
+        });
+    </script>
+</head> 
+<body>
+
+  <div data-role="page" id="pageContacts">
+
+    <div data-role="panel" id="mypanel" data-position="left" class="jqm-navmenu-panel" data-display="overlay" data-theme="a">
+    <ul data-role="listview">
+        <li data-filtertext="homepage" data-icon="home"><a href=".././">Messages</a></li>
+        <li data-filtertext="introduction"><a href="../intro/" data-ajax="false">Contacts</a></li>
+        <li data-filtertext="buttons"><a href="../button-markup/" data-ajax="false">Profile</a></li>
+        <li data-filtertext="widget"><a href="../button/" data-ajax="false">Logout</a></li>
+    </ul>
+    </div>
+
+    <div data-role="header">
+      <h1>Contacts</h1>
+      <a href="#mypanel" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
+    </div>
+
+    <div data-role="navbar">
+        <ul>
+            <li><a href="#">VTalk</a></li>
+            <li><a href="#">All</a></li>
+            <li><a href="#">Favorites</a></li>
+        </ul>
+    </div>
+
+    <div data-role="content">
+
+      <form class="ui-filterable">
+        <input type="search" id="filter-input">
+      </form>
+
+      <ul id="listContacts" data-role="listview" data-inset="true" data-filter="true" data-input="#filter-input" data-count-theme="a">
+        <!-- Contacts at here -->
+      </ul>
+      <div data-role="popup" id="infoUser" data-theme="a" data-overlay-theme="b" class="ui-content" style="max-width:340px; padding-bottom:2em;">
+        <h3 id="name_info_profile">Vi Bảo Quốc</h3>
+        <table border="0" cellpadding="2px" cellspacing="0" style="width:100%">
+            <tr>
+                <td style="width:40%" valign="top"><img width="100%" src="css/images/avatar.jpg"></td>
+                <td style="width:60%" valign="top">
+                    <ul>
+                        <li>Birthday: 27.04.1988</li>
+                        <li>Hoppy: Football</li>
+                        <li>Status: Single</li>
+                        <li>Email: vibaoquoc@gmail.com</li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    <p id="blas_info_profile">Tôi yêu đời , vui tươi và không ngừng nỗ lực để chinh phục các mục tiêu của bản thân.</p>
+        <a href="#pageConversation" class="ui-shadow ui-btn ui-corner-all ui-btn-a ui-icon-check ui-btn-icon-left ui-btn-inline ui-mini">Message</a>
+        <a href="index.html" data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini">Cancel</a>
+    </div>
+    </div>
+
+    <div data-role="footer">
+      <h4>HappyME ®</h4>
+    </div>
+
+  </div>
+
+  <div data-role="page" id="pageConversation">
+    <div data-role="header" id="headerChat">
+        <a href="#pageRecents" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-back ui-nodisc-icon ui-alt-icon ui-btn-left">Back</a>
+      <h1 id="label_name_partner">Name</h1>
+    </div>
+
+    <div data-role="content" id="containsChat" style="overflow-y:auto;padding-bottom:70px;">
+
+      <div class="container">
+        <ul id="conversation">
+            <li class="separator"><span>Today<span></span></span></li>
+          <li>
+            <div class="bubble"> 
+              <span class="personSay">the name of my village is Rathanpur</span> </div>
+            <span class="time round">12:55 AM <span><img src="https://cdn1.iconfinder.com/data/icons/fugue/icon/tick-circle-frame.png" width="15" height="15"></span> </span> </li>
+          <li>
+            <div class="bubble2">
+              <span class="personSay2">say hellooo yes the name of my village is rathanpur</span> </div>
+            <span class=" time2 round ">12:55 PM <span><img src="https://cdn1.iconfinder.com/data/icons/fugue/icon/tick-circle-frame.png" width="15" height="15"></span></span> </li>
+            
+        </ul>
+      </div>
+      
+    </div>
+
+    <div id="footerChat" data-role="footer" style="display:inline;height:auto;position: absolute;bottom: 0px; padding:0px; width:100%">
+    <table border="0" cellpadding="2px" cellspacing="0" style="width:100%">
+        <tr>
+            <td style="width:85%">
+                <textarea placeholder="Tin nhắn" rows="8" name="txtM" id="txtM" style="height:70px;"></textarea>
+            </td>
+            <td style="width:15%" valign="top">
+                <fieldset data-role="controlgroup" data-type="vertical">
+                    <button style="padding: 1px;" class="ui-shadow ui-btn ui-corner-all" type="submit" id="btnEmotion"><img src="css/images/emotions.png"></button>
+                    <button style="padding: 5px;" class="ui-shadow ui-btn ui-corner-all" type="submit" id="btnSend">Send</button>
+                </fieldset>
+            </td>
+        </tr>
+    </table>
+    <div class="emotions">
+        <ul class="wrapper-e">
+
+        </ul>
+    </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
+
+

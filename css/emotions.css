@@ -1,0 +1,11 @@
+.emotions {
+    background: none repeat scroll 0 0 #EEEEEE;
+    height: 100px;
+    overflow-y: auto;
+    padding: 8px;
+    width: 100%;
+    display: none;
+}
+
+.wrapper-e { overflow: hidden; padding: 10px 0 0 7px;}
+.wrapper-e li { float: left; padding: 0 0 10px 3px; width: 30px; text-align: center;}
